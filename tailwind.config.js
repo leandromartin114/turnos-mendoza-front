@@ -1,8 +1,17 @@
+/* eslint-env node */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
+    content: [
+        './pages/**/*.{js,ts,jsx,tsx}',
+        './components/**/*.{js,ts,jsx,tsx}',
+        './ui/**/*.{js,ts,jsx,tsx}',
+    ],
+    theme: {
+        extend: {
+            fontFamily: {
+                ibm: ['IBM Plex Sans', 'sans-serif'],
+            },
+        },
+    },
+    plugins: [],
 }
