@@ -11,10 +11,18 @@ export const MobileNav = () => {
                         <CloseWindow onClick={handleToggle}></CloseWindow>
                     </div>
                     <ul className='flex flex-col justify-center items-center self-center place-self-center gap-4 text-white font-bold text-2xl'>
-                        <li>Mi perfil</li>
-                        <li>Elegir turno</li>
-                        <li>Ingresar</li>
-                        <li>Registrarse</li>
+                        <li>
+                            <a href='#'>Mi perfil</a>
+                        </li>
+                        <li>
+                            <a href='#'>Elegir turno</a>
+                        </li>
+                        <li>
+                            <a href='#'>Ingresar</a>
+                        </li>
+                        <li>
+                            <a href='#'>Registrarse</a>
+                        </li>
                     </ul>
                 </nav>
             )}
