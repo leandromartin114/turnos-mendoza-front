@@ -1,5 +1,7 @@
 import Head from 'next/head'
 import { Layout } from '@/components/Layout'
+import { MainSection } from '@/components/MainSection'
+import { ProfileSection } from '@/components/PofileSection'
 
 export default function Home() {
     return (
@@ -17,7 +19,10 @@ export default function Home() {
                 <link rel='icon' href='/favicon.ico' />
             </Head>
             <main>
-                <Layout></Layout>
+                <Layout>
+                    <MainSection></MainSection>
+                    <ProfileSection></ProfileSection>
+                </Layout>
             </main>
         </>
     )
