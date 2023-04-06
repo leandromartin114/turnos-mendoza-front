@@ -24,3 +24,7 @@ export const SubTitle = ({ children, color }: Props) => {
 export const Body = ({ children, color }: Props) => {
     return <p className={'text-sm font-normal ' + color}>{children}</p>
 }
+
+export const Label = ({ children, color }: Props) => {
+    return <p className={'text-sm font-semibold ' + color}>{children}</p>
+}

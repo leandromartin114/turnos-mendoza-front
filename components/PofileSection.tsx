@@ -3,7 +3,7 @@ import { DarkButton } from '@/ui/Buttons'
 
 export const ProfileSection = () => {
     return (
-        <section className='h-screen grid content-center justify-center gap-16 p-2 bg-yellow-300'>
+        <section className='h-screen grid content-center justify-center gap-16 p-4 bg-yellow-300'>
             <div className='grid content-center gap-4 max-w-md'>
                 <Title color='text-black'>Mi perfil</Title>
                 <SubTitle color='text-orange-500'>
