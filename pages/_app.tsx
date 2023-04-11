@@ -1,13 +1,17 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import HeaderContextProvider from '@/context/HeaderContext'
+import { Provider } from 'react-redux'
+import { store } from '@/store/store'
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
         <>
-            <HeaderContextProvider>
-                <Component {...pageProps} />
-            </HeaderContextProvider>
+            <Provider store={store}>
+                <HeaderContextProvider>
+                    <Component {...pageProps} />
+                </HeaderContextProvider>
+            </Provider>
         </>
     )
 }

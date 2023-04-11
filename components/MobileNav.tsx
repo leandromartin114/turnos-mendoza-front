@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { HeaderContext } from '@/context/HeaderContext'
 import { CloseWindow } from '@/ui/Icons'
+
 export const MobileNav = () => {
     const { open, handleToggle } = useContext(HeaderContext)
     return (
