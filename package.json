@@ -19,6 +19,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.9",
     "react-redux": "^8.0.5",
+    "sonner": "^0.3.0",
     "typescript": "5.0.2"
   },
   "devDependencies": {

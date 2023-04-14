@@ -71,18 +71,19 @@ export async function getToken(email: string, code: string) {
         },
     })
     // We save the token in the data obj
-    saveToken(res.data.token)
-    return true
+    const token = res.data.token
+    saveToken(token)
+    return token
 }
 // Saving the token in localStorage
 export function saveToken(token: string) {
-    localStorage.setItem('auth_token', token)
+    sessionStorage.setItem('auth_token', token)
 }
 
 // Getting the token saved before from localStorage
 export function getSavedToken() {
     if (typeof window !== 'undefined') {
-        const token = localStorage.getItem('auth_token')
+        const token = sessionStorage.getItem('auth_token')
         return token
     }
     return false
@@ -90,7 +91,7 @@ export function getSavedToken() {
 
 // Deleting the token from localStorage
 export function removeToken() {
-    localStorage.removeItem('auth_token')
+    sessionStorage.removeItem('auth_token')
 }
 
 // It gets the user profile data

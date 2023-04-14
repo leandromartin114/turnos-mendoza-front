@@ -28,3 +28,7 @@ export const Body = ({ children, color }: Props) => {
 export const Label = ({ children, color }: Props) => {
     return <p className={'text-sm font-semibold ' + color}>{children}</p>
 }
+
+export const User = ({ children, color }: Props) => {
+    return <p className={'text-sm font-semibold ' + color}>{children}</p>
+}

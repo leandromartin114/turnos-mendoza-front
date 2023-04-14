@@ -1,9 +1,16 @@
 import { useContext } from 'react'
 import { HeaderContext } from '@/context/HeaderContext'
 import { CloseWindow } from '@/ui/Icons'
+import { useAppSelector } from '@/hooks/redux-toolkit'
+import { RootState } from '@/store'
+import { User } from '@/ui/Typography'
+import { CloseSessionButton } from '@/ui/Buttons'
 
 export const MobileNav = () => {
     const { open, handleToggle } = useContext(HeaderContext)
+    const { email } = useAppSelector((state: RootState) => state.userEmail)
+    // Manejar la lógica de los links y el botón de cerrar sesión
+
     return (
         <>
             {open && (
@@ -25,6 +32,14 @@ export const MobileNav = () => {
                             <a href='#'>Registrarse</a>
                         </li>
                     </ul>
+                    {email && (
+                        <div className='self-center flex flex-col items-center gap-2'>
+                            <User color='text-black'>{email}</User>
+                            <CloseSessionButton>
+                                cerrar sesión
+                            </CloseSessionButton>
+                        </div>
+                    )}
                 </nav>
             )}
         </>
