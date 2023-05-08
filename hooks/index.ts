@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from './redux-toolkit'
 import { getMe, getSavedToken } from '../lib/api'
 import { RootState, setUserData } from '../store'
+import { rtdb } from '@/lib/firebase'
+import { ref, onValue, off, get, DataSnapshot } from 'firebase/database'
+import { format, eachDayOfInterval, addMonths } from 'date-fns'
 
 // Gets the token value
 export function useGetToken() {
@@ -29,4 +32,49 @@ export function useMe() {
 
     const { userData } = useAppSelector((state: RootState) => state.userData)
     return userData
+}
+
+// Create array of days
+export function getNext2Months() {
+    const days = eachDayOfInterval({
+        start: new Date(),
+        end: addMonths(new Date(), 2),
+    })
+    const result = days.map((d) => {
+        return format(d, 'yyyy-MM-dd')
+    })
+    return result
+}
+
+// Conect to realtime db and gets the appointments
+export function useGetAppointments() {
+    const [data, setData] = useState<any>([])
+
+    useEffect(() => {
+        // Obtener datos iniciales
+        const fetchData = async () => {
+            const snapshot = await get(ref(rtdb, '/days'))
+            if (snapshot.exists()) {
+                setData(snapshot.val())
+            }
+        }
+
+        fetchData()
+
+        // Suscribirse a los cambios en la base de datos
+        const dataRef = ref(rtdb, '/days')
+        const dataCallback = (snapshot: DataSnapshot) => {
+            if (snapshot.exists()) {
+                setData(snapshot.val())
+            }
+        }
+        onValue(dataRef, dataCallback)
+
+        // Limpiar suscripciones cuando el componente se desmonte
+        return () => {
+            off(dataRef, dataCallback as any)
+        }
+    }, [])
+
+    return data
 }
