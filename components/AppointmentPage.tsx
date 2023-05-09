@@ -1,33 +1,52 @@
 import { useEffect, useState } from 'react'
 import { Title } from '@/ui/Typography'
-import { getNext2Months, useGetAppointments } from '@/hooks'
+import { useGetAppointments } from '@/hooks'
+import { getNext2Months } from '@/lib/helpers'
+import { AppointmentPicker } from './AppointmentPicker'
 
 export const AppointmentsPage = () => {
     const data = useGetAppointments()
-    const days = getNext2Months()
-    const [appos, setAppos] = useState<any>([])
+    const nextSixtyDays = getNext2Months()
+    const [fullDays, setFullDays] = useState<any>([])
 
     useEffect(() => {
-        const daysIncluded: any = []
-        days.map((d: any) => {
-            if (data[d]) {
+        const daysWithAppointments: any = []
+        nextSixtyDays.map((date: any) => {
+            if (data[date]) {
                 const appo = {
-                    date: d,
-                    appointments: data[d].appointments,
+                    date: date,
+                    appointments: data[date].appointments,
                 }
-                daysIncluded.push(appo)
+                daysWithAppointments.push(appo)
             }
         })
-        setAppos(daysIncluded)
+
+        const daysFullOfAppointments = daysWithAppointments.filter(
+            (day: any) => {
+                const size = Object.keys(day['appointments']).length
+                if (size > 1) {
+                    return day
+                }
+            }
+        )
+
+        const daysForDisable = daysFullOfAppointments.map((e: any) => {
+            const date = e.date.split('-')
+            const intDate = date.map((n: any) => {
+                return parseInt(n)
+            })
+            return intDate
+        })
+        setFullDays(daysForDisable)
     }, [data])
 
     return (
-        <main className='h-screen grid content-center justify-center gap-16 p-4'>
-            <div className='grid content-center justify-center gap-16 max-w-md'>
+        <main className='w-full grid content-center h-[calc(100vh-64px)]  gap-16 p-4'>
+            <div className='w-full grid content-center justify-center gap-16'>
                 <Title color='text-orange-400'>
                     Selecciona el día de tu turno:
                 </Title>
-                <div>{JSON.stringify(appos)}</div>
+                <AppointmentPicker fullDays={fullDays} />
             </div>
         </main>
     )
