@@ -1,17 +1,18 @@
 import { format, addMonths } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { DayPicker } from 'react-day-picker'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import 'react-day-picker/dist/style.css'
 import { getSaturdaysAndSundays } from '@/lib/helpers'
 
 export const AppointmentPicker = ({ fullDays }: any) => {
     const [selected, setSelected] = useState<Date>()
+    const [months, setMonths] = useState(1)
     const start = new Date()
     const end = addMonths(start, 2)
     const weekends = getSaturdaysAndSundays(start, 60)
 
-    let footer = <p>Please pick a day.</p>
+    let footer = <p>Elige un día.</p>
     if (selected) {
         footer = <p>Elegiste {format(selected, 'PP')}.</p>
     }
@@ -34,7 +35,7 @@ export const AppointmentPicker = ({ fullDays }: any) => {
   }
   .my-today { 
     font-weight: bold;
-    font-size: 120%;
+    font-size: 130%;
   }
   .my-disabled {
     text-decoration-line: line-through;
@@ -42,6 +43,23 @@ export const AppointmentPicker = ({ fullDays }: any) => {
     color: #f7750c;
   }
 `
+    useEffect(() => {
+        function handleWindowResize() {
+            if (window.innerWidth > 640) {
+                setMonths(2)
+            }
+            if (window.innerWidth < 640) {
+                setMonths(1)
+            }
+        }
+
+        window.addEventListener('resize', handleWindowResize)
+
+        return () => {
+            window.removeEventListener('resize', handleWindowResize)
+        }
+    }, [])
+
     return (
         <>
             <style>{css}</style>
@@ -51,7 +69,7 @@ export const AppointmentPicker = ({ fullDays }: any) => {
                 selected={selected}
                 onSelect={setSelected}
                 footer={footer}
-                numberOfMonths={2}
+                numberOfMonths={months}
                 fromDate={start}
                 toDate={end}
                 pagedNavigation

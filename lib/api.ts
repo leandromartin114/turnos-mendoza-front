@@ -112,3 +112,53 @@ export async function getMe() {
         }
     }
 }
+
+// It updates the user profile data
+export async function updateMe(
+    email: string,
+    fullName: string,
+    phoneNumber: number,
+    address: string,
+    document: number
+) {
+    const token = getSavedToken()
+    if (token) {
+        try {
+            const data = await fetchAPI('/me/update', {
+                method: 'POST',
+                body: {
+                    fullName,
+                    email,
+                    phoneNumber,
+                    address,
+                    document,
+                },
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                },
+            })
+            return data
+        } catch (error) {
+            return error
+        }
+    }
+}
+
+// It gets the user appointment
+export async function getMyAppointment() {
+    const token = getSavedToken()
+    if (token) {
+        try {
+            const res = await fetch(BASE_URL + '/me/appointment', {
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    Authorization: `bearer ${token}`,
+                },
+            })
+            const data = await res.json()
+            return data
+        } catch (error) {
+            return error
+        }
+    }
+}

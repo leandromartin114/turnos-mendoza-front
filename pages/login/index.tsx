@@ -15,7 +15,7 @@ export default function Login() {
                 <link rel='icon' href='/favicon.ico' />
             </Head>
             <Layout>
-                <LoginPage></LoginPage>
+                <LoginPage />
             </Layout>
         </>
     )

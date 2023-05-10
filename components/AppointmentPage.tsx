@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Title } from '@/ui/Typography'
+import { Title, Body } from '@/ui/Typography'
 import { useGetAppointments } from '@/hooks'
 import { getNext2Months } from '@/lib/helpers'
 import { AppointmentPicker } from './AppointmentPicker'
@@ -41,13 +41,18 @@ export const AppointmentsPage = () => {
     }, [data])
 
     return (
-        <main className='w-full grid content-center h-[calc(100vh-64px)]  gap-16 p-4'>
-            <div className='w-full grid content-center justify-center gap-16'>
+        <main className='h-screen grid content-center justify-items-center gap-16 p-2'>
+            <div className='max-w-md grid content-center justify-center gap-10'>
                 <Title color='text-orange-400'>
-                    Selecciona el día de tu turno:
+                    Selecciona el día de tu turno
                 </Title>
-                <AppointmentPicker fullDays={fullDays} />
+                <Body color='text-black'>
+                    Recuerda que debes elegir un día de lunes a viernes y ese
+                    día se atenderá por orden de llegada en el horario de 8:00 a
+                    12:00.
+                </Body>
             </div>
+            <AppointmentPicker fullDays={fullDays} />
         </main>
     )
 }

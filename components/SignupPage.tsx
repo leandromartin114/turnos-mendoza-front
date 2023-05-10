@@ -1,14 +1,14 @@
-import { LoginForm } from '@/components/LoginForm'
+import { SignupForm } from './SignupForm'
 import { Title } from '@/ui/Typography'
 
-export const LoginPage = () => {
+export const SignupPage = () => {
     return (
         <main className='h-screen grid content-center justify-center gap-16 p-2'>
             <div className='grid content-center justify-center gap-16 max-w-md'>
                 <Title color='text-orange-400'>
-                    Inicia sesión con tu correo electrónico
+                    Ingresa tus datos para dar de alta un usuario
                 </Title>
-                <LoginForm />
+                <SignupForm />
             </div>
         </main>
     )

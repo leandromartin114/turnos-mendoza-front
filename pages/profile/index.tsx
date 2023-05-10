@@ -1,13 +1,12 @@
 import Head from 'next/head'
 import { Layout } from '@/components/Layout'
-import { MainSection } from '@/components/MainSection'
-import { ProfileSection } from '@/components/PofileSection'
+import { ProfilePage } from '@/components/ProfilePage'
 
-export default function Home() {
+export default function Login() {
     return (
         <>
             <Head>
-                <title>Turnos Mendoza</title>
+                <title>Profile</title>
                 <meta name='description' content='Appointments web' />
                 <meta
                     name='viewport'
@@ -16,8 +15,7 @@ export default function Home() {
                 <link rel='icon' href='/favicon.ico' />
             </Head>
             <Layout>
-                <MainSection />
-                <ProfileSection />
+                <ProfilePage />
             </Layout>
         </>
     )
