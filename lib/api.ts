@@ -162,3 +162,24 @@ export async function getMyAppointment() {
         }
     }
 }
+
+// It deletes the user appointment
+export async function deleteAppointment(date: string) {
+    const token = getSavedToken()
+    if (token) {
+        try {
+            const data = await fetchAPI('/appointment/delete', {
+                method: 'POST',
+                body: {
+                    date: date,
+                },
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                },
+            })
+            return data
+        } catch (error) {
+            return error
+        }
+    }
+}

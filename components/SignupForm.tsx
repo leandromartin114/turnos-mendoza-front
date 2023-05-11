@@ -67,7 +67,7 @@ export const SignupForm = () => {
         <>
             {!email ? (
                 <form
-                    className='grid content-center gap-4'
+                    className='grid content-center gap-2'
                     onSubmit={handleSubmit(handleSendCode)}
                 >
                     <label className='flex flex-col gap-1'>

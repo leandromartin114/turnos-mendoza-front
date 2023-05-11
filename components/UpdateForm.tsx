@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { MainButton } from '@/ui/Buttons'
+import { MainButton, SecondaryButton } from '@/ui/Buttons'
 import { Label } from '@/ui/Typography'
 import { useAppDispatch, useAppSelector } from '@/hooks/redux-toolkit'
 import { setUserData, RootState } from '@/store'
-import { getMe, updateMe } from '@/lib/api'
+import { deleteAppointment, getMe, updateMe } from '@/lib/api'
 import { Loader } from '@/ui/Loader'
 import { Toaster, toast } from 'sonner'
 
@@ -40,6 +40,19 @@ export const UpdateForm = () => {
         reset()
     }
 
+    const handleDeleteAppointment = async () => {
+        setLoader(true)
+        setTimeout(() => {
+            toast.message('Turno Eliminado', {
+                description: `Puedes volver a solicitar uno nuevo desde la sección turnos`,
+            })
+        }, 3000)
+        const res = await deleteAppointment(userData.appointment as string)
+        if (res) {
+            setLoader(false)
+        }
+    }
+
     useEffect(() => {
         async function fetchMyData() {
             const data = await getMe()
@@ -51,7 +64,7 @@ export const UpdateForm = () => {
     return (
         <>
             <form
-                className='grid content-center gap-4'
+                className='grid content-center gap-2 py-2'
                 onSubmit={handleSubmit(handleUpdate)}
             >
                 <label className='flex flex-col gap-1'>
@@ -104,17 +117,25 @@ export const UpdateForm = () => {
                     />
                     {errors.document && <span>This field is required</span>}
                 </label>
-                <label className='flex flex-col gap-1'>
+                <MainButton type='submit'>
+                    {loader ? <Loader /> : 'Guardar'}
+                </MainButton>
+            </form>
+            <div className='w-full grid content-center gap-2 py-2'>
+                <label className='w-full flex flex-col gap-1'>
                     <Label color='text-orange-400'>turno</Label>
                     <div className='h-11 text-lg bg-orange-100 rounded-lg p-2 w-full'>
                         {userData ? userData.appointment : ''}
                     </div>
                     {errors.turno && <span>This field is required</span>}
                 </label>
-                <MainButton type='submit'>
-                    {loader ? <Loader /> : 'Guardar'}
-                </MainButton>
-            </form>
+                <SecondaryButton
+                    onClick={handleDeleteAppointment}
+                    type='button'
+                >
+                    {loader ? <Loader /> : 'Eliminar turno'}
+                </SecondaryButton>
+            </div>
             <Toaster richColors />
         </>
     )

@@ -1,15 +1,28 @@
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { HeaderContext } from '@/context/HeaderContext'
 import { CloseWindow } from '@/ui/Icons'
 import { useAppSelector } from '@/hooks/redux-toolkit'
 import { RootState } from '@/store'
 import { User } from '@/ui/Typography'
 import { CloseSessionButton } from '@/ui/Buttons'
+import { getSavedToken, removeToken } from '@/lib/api'
 
 export const MobileNav = () => {
     const { open, handleToggle } = useContext(HeaderContext)
     const { email } = useAppSelector((state: RootState) => state.userEmail)
-    // Manejar la lógica de los links y el botón de cerrar sesión
+    const token = getSavedToken()
+    const [active, setActive] = useState(false)
+
+    const closeSession = () => {
+        removeToken()
+        setActive(false)
+    }
+
+    useEffect(() => {
+        if (token) {
+            setActive(true)
+        }
+    }, [token])
 
     return (
         <>
@@ -32,10 +45,10 @@ export const MobileNav = () => {
                             <a href='#'>Registrarse</a>
                         </li>
                     </ul>
-                    {email && (
+                    {active && (
                         <div className='self-center flex flex-col items-center gap-2'>
                             <User color='text-black'>{email}</User>
-                            <CloseSessionButton>
+                            <CloseSessionButton onClick={closeSession}>
                                 cerrar sesión
                             </CloseSessionButton>
                         </div>

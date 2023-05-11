@@ -3,16 +3,16 @@ import { DarkButton } from '@/ui/Buttons'
 
 export const ProfileSection = () => {
     return (
-        <section className='h-screen grid content-center justify-center gap-16 p-4 bg-yellow-300'>
-            <div className='grid content-center gap-4 max-w-md'>
+        <section className='h-screen grid content-center justify-items-center gap-16 p-2 bg-yellow-300'>
+            <div className='grid content-center gap-4 max-w-md xl:max-w-xl'>
                 <Title color='text-black'>Mi perfil</Title>
                 <SubTitle color='text-orange-500'>
                     Podrás ver tu turno, cancelarlo y administrar toda tu
                     información desde esta sección.
                 </SubTitle>
             </div>
-            <div className='grid content-center gap-2 max-w-md'>
-                <DarkButton>Registrarse</DarkButton>
+            <div className='grid content-center gap-2 w-72 xl:w-96'>
+                <DarkButton>Ingresar</DarkButton>
             </div>
         </section>
     )

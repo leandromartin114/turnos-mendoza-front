@@ -41,8 +41,8 @@ export const AppointmentsPage = () => {
     }, [data])
 
     return (
-        <main className='h-screen grid content-center justify-items-center gap-16 p-2'>
-            <div className='max-w-md grid content-center justify-center gap-10'>
+        <main className='h-screen grid content-center justify-items-center gap-10 p-2'>
+            <div className='grid content-center justify-items-center max-w-xs md:max-w-md xl:max-w-lg gap-5'>
                 <Title color='text-orange-400'>
                     Selecciona el día de tu turno
                 </Title>
