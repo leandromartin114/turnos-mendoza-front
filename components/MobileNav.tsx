@@ -33,16 +33,20 @@ export const MobileNav = () => {
                     </div>
                     <ul className='flex flex-col justify-center items-center self-center place-self-center gap-4 text-white font-bold text-2xl'>
                         <li>
-                            <a href='#'>Mi perfil</a>
+                            <a href={token ? '/profile' : '/login'}>
+                                Mi perfil
+                            </a>
                         </li>
                         <li>
-                            <a href='#'>Elegir turno</a>
+                            <a href={token ? '/appointment' : '/login'}>
+                                Elegir turno
+                            </a>
                         </li>
                         <li>
-                            <a href='#'>Ingresar</a>
+                            <a href={token ? '/profile' : '/login'}>Ingresar</a>
                         </li>
                         <li>
-                            <a href='#'>Registrarse</a>
+                            <a href='/signup'>Registrarse</a>
                         </li>
                     </ul>
                     {active && (

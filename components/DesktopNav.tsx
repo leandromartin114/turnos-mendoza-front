@@ -26,13 +26,15 @@ export const DesktopNav = () => {
             <nav className='hidden lg:flex p-2'>
                 <ul className='flex justify-around items-center gap-8 font-semibold text-xl text-orange-400'>
                     <li className='hover:text-orange-300'>
-                        <a href='/profile'>Mi perfil</a>
+                        <a href={token ? '/profile' : '/login'}>Mi perfil</a>
                     </li>
                     <li className='hover:text-orange-300'>
-                        <a href='/appointment'>Elegir turno</a>
+                        <a href={token ? '/appointment' : '/login'}>
+                            Elegir turno
+                        </a>
                     </li>
                     <li className='text-orange-600 hover:text-orange-400'>
-                        <a href='/login'>Ingresar</a>
+                        <a href={token ? '/profile' : '/login'}>Ingresar</a>
                     </li>
                     <li className='text-orange-600 p-2 rounded-lg bg-yellow-300 hover:bg-yellow-400'>
                         <a href='/signup'>Registrarse</a>

@@ -1,17 +1,20 @@
+import { getSavedToken } from '@/lib/api'
 import { Body } from '@/ui/Typography'
 
 export const Footer = () => {
+    const token = getSavedToken()
+
     return (
         <footer className='bg-orange-500 w-full absolute flex flex-col gap-8 px-2 py-8'>
             <ul className='flex flex-col justify-center items-center self-center place-self-center gap-4 text-white font-semibold text-xl'>
                 <li className='hover:text-gray-200'>
-                    <a href='/profile'>Mi perfil</a>
+                    <a href={token ? '/profile' : '/login'}>Mi perfil</a>
                 </li>
                 <li className='hover:text-gray-200'>
-                    <a href='/appointment'>Elegir turno</a>
+                    <a href={token ? '/appointment' : '/login'}>Elegir turno</a>
                 </li>
                 <li className='hover:text-gray-200'>
-                    <a href='/login'>Ingresar</a>
+                    <a href={token ? '/profile' : '/login'}>Ingresar</a>
                 </li>
                 <li className='hover:text-gray-200'>
                     <a href='/signup'>Registrarse</a>

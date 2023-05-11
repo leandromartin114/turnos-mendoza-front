@@ -1,7 +1,16 @@
+import { useRouter } from 'next/router'
 import { Title, SubTitle } from '@/ui/Typography'
 import { DarkButton } from '@/ui/Buttons'
+import { getSavedToken } from '@/lib/api'
 
 export const ProfileSection = () => {
+    const router = useRouter()
+    const token = getSavedToken()
+
+    const handlerClick = () => {
+        token ? router.push('/profile') : router.push('/login')
+    }
+
     return (
         <section className='h-screen grid content-center justify-items-center gap-16 p-2 bg-yellow-300'>
             <div className='grid content-center gap-4 max-w-md xl:max-w-xl'>
@@ -12,7 +21,7 @@ export const ProfileSection = () => {
                 </SubTitle>
             </div>
             <div className='grid content-center gap-2 w-72 xl:w-96'>
-                <DarkButton>Ingresar</DarkButton>
+                <DarkButton onClick={handlerClick}>Ingresar</DarkButton>
             </div>
         </section>
     )
