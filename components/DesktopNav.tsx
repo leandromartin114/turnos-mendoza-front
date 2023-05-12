@@ -1,29 +1,17 @@
+import { useContext } from 'react'
 import { useAppSelector } from '@/hooks/redux-toolkit'
+import { HeaderContext } from '@/context/HeaderContext'
 import { RootState } from '@/store'
 import { User } from '@/ui/Typography'
 import { CloseSessionButton } from '@/ui/Buttons'
-import { getSavedToken, removeToken } from '@/lib/api'
-import { useEffect, useState } from 'react'
 
 export const DesktopNav = () => {
     const { email } = useAppSelector((state: RootState) => state.userEmail)
-    const token = getSavedToken()
-    const [active, setActive] = useState(false)
-
-    const closeSession = () => {
-        removeToken()
-        setActive(false)
-    }
-
-    useEffect(() => {
-        if (token) {
-            setActive(true)
-        }
-    }, [token])
+    const { token, logout } = useContext(HeaderContext)
 
     return (
         <>
-            <nav className='hidden lg:flex p-2'>
+            <nav className='hidden lg:flex p-2 gap-8'>
                 <ul className='flex justify-around items-center gap-8 font-semibold text-xl text-orange-400'>
                     <li className='hover:text-orange-300'>
                         <a href={token ? '/profile' : '/login'}>Mi perfil</a>
@@ -40,10 +28,10 @@ export const DesktopNav = () => {
                         <a href='/signup'>Registrarse</a>
                     </li>
                 </ul>
-                {active && (
-                    <div className='flex flex-col items-center gap-2'>
+                {token && (
+                    <div className='flex flex-col items-center'>
                         <User color='text-black'>{email}</User>
-                        <CloseSessionButton onClick={closeSession}>
+                        <CloseSessionButton onClick={logout}>
                             cerrar sesión
                         </CloseSessionButton>
                     </div>

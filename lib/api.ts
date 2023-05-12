@@ -40,7 +40,13 @@ export async function sendCodeSignUp(
     try {
         const data = await fetchAPI('/auth/signup', {
             method: 'POST',
-            body: { email, fullName, phoneNumber, address, document },
+            body: {
+                email,
+                fullName,
+                phoneNumber: Number(phoneNumber),
+                address,
+                document: Number(document),
+            },
         })
         return data
     } catch (error) {

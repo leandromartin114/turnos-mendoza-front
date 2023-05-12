@@ -24,24 +24,29 @@ export const SignupForm = () => {
 
     const handleSendCode = async (data: any) => {
         setLoader(true)
-        dispatch(setUserEmail(data.email))
-        setTimeout(() => {
-            toast.message('Código enviado', {
-                description: `Enviamos tu código a: ${data.email}`,
-            })
-        }, 3000)
-        const res = await sendCodeSignUp(
-            data.fullName,
-            data.email,
-            data.phoneNumber,
-            data.address,
-            data.document
-        )
-        if (res) {
+        try {
+            dispatch(setUserEmail(data.email))
+            setTimeout(() => {
+                toast.message('Código enviado', {
+                    description: `Enviamos tu código a: ${data.email}`,
+                })
+            }, 3000)
+            const res = await sendCodeSignUp(
+                data.fullName,
+                data.email,
+                data.phoneNumber,
+                data.address,
+                data.document
+            )
+            if (res) {
+                setLoader(false)
+                setEmail(data.email)
+            }
+            reset()
+        } catch (error) {
             setLoader(false)
-            setEmail(data.email)
+            return error
         }
-        reset()
     }
 
     const handleLogin = async (data: any) => {
