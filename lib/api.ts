@@ -189,3 +189,34 @@ export async function deleteAppointment(date: string) {
         }
     }
 }
+
+// It creates a new appointment
+export async function createAppointment(
+    date: string,
+    fullName: string,
+    document: number,
+    email: string
+) {
+    const token = getSavedToken()
+    if (token) {
+        try {
+            const data = await fetchAPI('/appointment/new', {
+                method: 'POST',
+                body: {
+                    date: date,
+                    data: {
+                        fullName: fullName,
+                        document: document,
+                        email: email,
+                    },
+                },
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                },
+            })
+            return data
+        } catch (error) {
+            return error
+        }
+    }
+}

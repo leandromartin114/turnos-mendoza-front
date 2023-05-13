@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form'
 import { MainButton } from '@/ui/Buttons'
 import { Label } from '@/ui/Typography'
 import { useAppDispatch } from '@/hooks/redux-toolkit'
-import { setUserEmail } from '@/store'
-import { sendCodeLogin, getToken } from '@/lib/api'
+import { setUserEmail, setUserData } from '@/store'
+import { sendCodeLogin, getToken, getMe } from '@/lib/api'
 import { Loader } from '@/ui/Loader'
 import { Toaster, toast } from 'sonner'
 
@@ -16,28 +16,35 @@ export const LoginForm = () => {
         formState: { errors },
         reset,
     } = useForm()
-
     const router = useRouter()
     const [email, setEmail] = useState('')
     const [loader, setLoader] = useState(false)
     const dispatch = useAppDispatch()
 
+    // Sending the code to the user email
     const handleSendCode = async (data: any) => {
         setLoader(true)
         dispatch(setUserEmail(data.email))
-        setTimeout(() => {
-            toast.message('Código enviado', {
-                description: `Enviamos tu código a: ${data.email}`,
-            })
-        }, 3000)
-        const res = await sendCodeLogin(data.email)
-        if (res) {
+        const res: any = await sendCodeLogin(data.email)
+        if (res.status === 400) {
+            setTimeout(() => {
+                toast.error('Usuario no encontrado', {
+                    description: `El usuario no existe, debes registrarte`,
+                })
+            }, 2000)
+            router.push('/signup')
+        } else {
+            setTimeout(() => {
+                toast.message('Código enviado', {
+                    description: `Enviamos tu código a: ${data.email}`,
+                })
+            }, 2000)
             setLoader(false)
             setEmail(data.email)
         }
         reset()
     }
-
+    // Sign in the user and getting data from server
     const handleLogin = async (data: any) => {
         setLoader(true)
         try {
@@ -46,12 +53,17 @@ export const LoginForm = () => {
                 toast.success('Logueado con éxito', {
                     description: `Bienvenido`,
                 })
+                const dataFromServer = await getMe()
+                dispatch(setUserData(dataFromServer))
             }
             setTimeout(() => {
                 router.push('/')
             }, 3000)
         } catch (error) {
             setLoader(false)
+            toast.error('Hubo un error', {
+                description: `Inténtalo nuevamente por favor`,
+            })
             return error
         }
         reset()

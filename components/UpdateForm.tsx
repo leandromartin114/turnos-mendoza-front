@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { MainButton, SecondaryButton } from '@/ui/Buttons'
 import { Label } from '@/ui/Typography'
 import { useAppDispatch, useAppSelector } from '@/hooks/redux-toolkit'
 import { setUserData, RootState } from '@/store'
-import { deleteAppointment, getMe, updateMe } from '@/lib/api'
+import { deleteAppointment, updateMe } from '@/lib/api'
 import { Loader } from '@/ui/Loader'
 import { Toaster, toast } from 'sonner'
 
@@ -53,13 +53,13 @@ export const UpdateForm = () => {
         }
     }
 
-    useEffect(() => {
-        async function fetchMyData() {
-            const data = await getMe()
-            dispatch(setUserData(data))
-        }
-        fetchMyData()
-    }, [])
+    // useEffect(() => {
+    //     async function fetchMyData() {
+    //         const data = await getMe()
+    //         dispatch(setUserData(data))
+    //     }
+    //     fetchMyData()
+    // }, [])
 
     return (
         <>

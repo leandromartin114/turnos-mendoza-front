@@ -1,14 +1,42 @@
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import { HeaderContext } from '@/context/HeaderContext'
 import { CloseWindow } from '@/ui/Icons'
 import { useAppSelector } from '@/hooks/redux-toolkit'
 import { RootState } from '@/store'
 import { User } from '@/ui/Typography'
 import { CloseSessionButton } from '@/ui/Buttons'
+import { getSavedToken } from '@/lib/api'
 
 export const MobileNav = () => {
-    const { open, handleToggle, token, logout } = useContext(HeaderContext)
+    const { open, handleToggle, logout } = useContext(HeaderContext)
     const { email } = useAppSelector((state: RootState) => state.userEmail)
+    const router = useRouter()
+    const token = getSavedToken()
+    const [profileLink, setProfileLink] = useState('/login')
+    const [appointmentLink, setAppointmentLink] = useState('/login')
+    const [loginLink, setLoginLink] = useState('/login')
+    const [displayUser, setDisplayUser] = useState('hidden')
+
+    const handleSession = () => {
+        logout()
+        handleToggle()
+        router.push('/')
+    }
+
+    useEffect(() => {
+        if (token) {
+            setProfileLink('/profile')
+            setAppointmentLink('/appointment')
+            setLoginLink('/profile')
+            setDisplayUser('flex')
+        } else {
+            setProfileLink('/login')
+            setAppointmentLink('/login')
+            setLoginLink('/login')
+            setDisplayUser('hidden')
+        }
+    }, [token])
 
     return (
         <>
@@ -19,30 +47,24 @@ export const MobileNav = () => {
                     </div>
                     <ul className='flex flex-col justify-center items-center self-center place-self-center gap-4 text-white font-bold text-2xl'>
                         <li>
-                            <a href={token ? '/profile' : '/login'}>
-                                Mi perfil
-                            </a>
+                            <a href={profileLink}>Mi perfil</a>
                         </li>
                         <li>
-                            <a href={token ? '/appointment' : '/login'}>
-                                Elegir turno
-                            </a>
+                            <a href={appointmentLink}>Elegir turno</a>
                         </li>
                         <li>
-                            <a href={token ? '/profile' : '/login'}>Ingresar</a>
+                            <a href={loginLink}>Ingresar</a>
                         </li>
                         <li>
                             <a href='/signup'>Registrarse</a>
                         </li>
                     </ul>
-                    {token && (
-                        <div className='self-center flex flex-col items-center'>
-                            <User color='text-black'>{email}</User>
-                            <CloseSessionButton onClick={logout}>
-                                cerrar sesión
-                            </CloseSessionButton>
-                        </div>
-                    )}
+                    <div className={'flex-col items-center ' + displayUser}>
+                        <User color='text-black'>{email}</User>
+                        <CloseSessionButton onClick={handleSession}>
+                            cerrar sesión
+                        </CloseSessionButton>
+                    </div>
                 </nav>
             )}
         </>

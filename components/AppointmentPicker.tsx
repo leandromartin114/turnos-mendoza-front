@@ -4,10 +4,18 @@ import { DayPicker } from 'react-day-picker'
 import { useEffect, useState } from 'react'
 import 'react-day-picker/dist/style.css'
 import { getSaturdaysAndSundays } from '@/lib/helpers'
+import { Loader } from '@/ui/Loader'
+import { Toaster, toast } from 'sonner'
+import { MainButton } from '@/ui/Buttons'
+// import { createAppointment } from '@/lib/api'
+import { useAppSelector } from '@/hooks/redux-toolkit'
+import { RootState } from '@/store'
 
 export const AppointmentPicker = ({ fullDays }: any) => {
+    const { userData } = useAppSelector((state: RootState) => state.userData)
     const [selected, setSelected] = useState<Date>()
     const [months, setMonths] = useState(1)
+    const [loader, setLoader] = useState(false)
     const start = new Date()
     const end = addMonths(start, 2)
     const weekends = getSaturdaysAndSundays(start, 60)
@@ -43,6 +51,44 @@ export const AppointmentPicker = ({ fullDays }: any) => {
     color: #f7750c;
   }
 `
+    const handleAppointment = async () => {
+        if (selected) {
+            const date = selected.toDateString()
+            setLoader(true)
+            try {
+                setTimeout(() => {
+                    toast.message('Turno confirmado', {
+                        description: `Enviamos la confirmación de tu turno a: ${userData.email}`,
+                    })
+                }, 3000)
+                const res = {
+                    date,
+                    fullName: userData.fullName,
+                    document: userData.document,
+                    email: userData.email,
+                }
+                console.log(res)
+
+                // const res = await createAppointment(
+                //     date,
+                //     userData?.fullName,
+                //     userData.document,
+                //     userData.email,
+                // )
+                if (res) {
+                    setLoader(false)
+                }
+            } catch (error) {
+                setLoader(false)
+                return error
+            }
+        } else {
+            toast.error('Sin turno elegido', {
+                description: `Debes seleccionar un día para el turno`,
+            })
+        }
+    }
+
     useEffect(() => {
         function handleWindowResize() {
             if (window.innerWidth > 640) {
@@ -83,6 +129,10 @@ export const AppointmentPicker = ({ fullDays }: any) => {
                     caption: { color: '#fb923c' },
                 }}
             />
+            <MainButton onClick={handleAppointment} type='button'>
+                {loader ? <Loader /> : 'Enviar'}
+            </MainButton>
+            <Toaster richColors />
         </>
     )
 }
