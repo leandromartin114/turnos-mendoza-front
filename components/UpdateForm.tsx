@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@/hooks/redux-toolkit'
 import { useForm } from 'react-hook-form'
 import { Toaster, toast } from 'sonner'
@@ -49,8 +49,18 @@ export const UpdateForm = () => {
         const res = await deleteAppointment(userData.appointment as string)
         if (res) {
             setLoader(false)
+            const dataFromServer = await getMe()
+            dispatch(setUserData(dataFromServer))
         }
     }
+
+    useEffect(() => {
+        async function fetchUserData() {
+            const dataFromServer = await getMe()
+            dispatch(setUserData(dataFromServer))
+        }
+        fetchUserData()
+    }, [])
 
     return (
         <>

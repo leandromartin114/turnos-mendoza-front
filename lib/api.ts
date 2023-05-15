@@ -175,7 +175,7 @@ export async function deleteAppointment(date: string) {
     if (token) {
         try {
             const data = await fetchAPI('/appointment/delete', {
-                method: 'POST',
+                method: 'DELETE',
                 body: {
                     date: date,
                 },

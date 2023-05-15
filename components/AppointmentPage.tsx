@@ -59,7 +59,7 @@ export const AppointmentsPage = () => {
                 <Body color='text-black'>
                     Recuerda que debes elegir un día de lunes a viernes y ese
                     día se atenderá por orden de llegada en el horario de 8:00 a
-                    12:00.
+                    14:00.
                 </Body>
             </div>
             <AppointmentPicker fullDays={fullDays} />

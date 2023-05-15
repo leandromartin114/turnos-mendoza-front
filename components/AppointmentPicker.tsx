@@ -7,7 +7,7 @@ import { getSaturdaysAndSundays } from '@/lib/helpers'
 import { Loader } from '@/ui/Loader'
 import { Toaster, toast } from 'sonner'
 import { MainButton } from '@/ui/Buttons'
-// import { createAppointment } from '@/lib/api'
+import { createAppointment } from '@/lib/api'
 import { useAppSelector } from '@/hooks/redux-toolkit'
 import { RootState } from '@/store'
 
@@ -53,7 +53,7 @@ export const AppointmentPicker = ({ fullDays }: any) => {
 `
     const handleAppointment = async () => {
         if (selected) {
-            const date = selected.toDateString()
+            const date = format(new Date(selected), 'yyyy-MM-dd')
             setLoader(true)
             try {
                 setTimeout(() => {
@@ -61,20 +61,18 @@ export const AppointmentPicker = ({ fullDays }: any) => {
                         description: `Enviamos la confirmación de tu turno a: ${userData.email}`,
                     })
                 }, 3000)
-                const res = {
-                    date,
-                    fullName: userData.fullName,
-                    document: userData.document,
-                    email: userData.email,
-                }
-                console.log(res)
-
-                // const res = await createAppointment(
+                // const res = {
                 //     date,
-                //     userData?.fullName,
-                //     userData.document,
-                //     userData.email,
-                // )
+                //     fullName: userData.fullName,
+                //     document: userData.document,
+                //     email: userData.email,
+                // }
+                const res = await createAppointment(
+                    date,
+                    userData.fullName,
+                    Number(userData.document),
+                    userData.email
+                )
                 if (res) {
                     setLoader(false)
                 }
@@ -107,7 +105,7 @@ export const AppointmentPicker = ({ fullDays }: any) => {
     }, [])
 
     return (
-        <>
+        <div className='flex flex-col justify-center'>
             <style>{css}</style>
             <DayPicker
                 locale={es}
@@ -133,6 +131,6 @@ export const AppointmentPicker = ({ fullDays }: any) => {
                 {loader ? <Loader /> : 'Enviar'}
             </MainButton>
             <Toaster richColors />
-        </>
+        </div>
     )
 }

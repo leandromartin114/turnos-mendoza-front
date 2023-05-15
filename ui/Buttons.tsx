@@ -26,7 +26,7 @@ export const SecondaryButton = ({ children, onClick, type }: Props) => {
             type={type}
             onClick={onClick}
             className={
-                'w-full p-2 rounded-lg font-bold text-lg bg-orange-500 text-yellow-300 hover:bg-orange-400 text-center'
+                'w-full p-2 rounded-lg font-bold text-lg bg-orange-500 text-yellow-300 hover:bg-orange-400 flex justify-center'
             }
         >
             {children}
@@ -40,7 +40,7 @@ export const DarkButton = ({ children, onClick, type }: Props) => {
             type={type}
             onClick={onClick}
             className={
-                'w-full p-2 rounded-lg font-bold text-lg bg-black text-orange-400 hover:bg-gray-600 text-center'
+                'w-full p-2 rounded-lg font-bold text-lg bg-black text-orange-400 hover:bg-gray-600 flex justify-center'
             }
         >
             {children}

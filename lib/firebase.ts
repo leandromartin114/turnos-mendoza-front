@@ -2,13 +2,13 @@ import { initializeApp } from 'firebase/app'
 import { getDatabase } from 'firebase/database'
 
 const firebaseConfig = {
-    apiKey: 'AIzaSyC_eZvu9KwI9Wf4yufz-5j2cS0EJRYRWQE',
-    authDomain: 'turnos-web-4c948.firebaseapp.com',
-    databaseURL: 'https://turnos-web-4c948-default-rtdb.firebaseio.com',
-    projectId: 'turnos-web-4c948',
-    storageBucket: 'turnos-web-4c948.appspot.com',
-    messagingSenderId: '974036005117',
-    appId: '1:974036005117:web:41c66ebac042cb84a8ce94',
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 }
 
 const app = initializeApp(firebaseConfig)
