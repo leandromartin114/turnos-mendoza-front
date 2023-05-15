@@ -1,13 +1,23 @@
 import { useEffect, useState } from 'react'
-import { Title, Body } from '@/ui/Typography'
+import { useRouter } from 'next/router'
 import { useGetAppointments } from '@/hooks'
+import { getSavedToken } from '@/lib/api'
 import { getNext2Months } from '@/lib/helpers'
 import { AppointmentPicker } from './AppointmentPicker'
+import { Title, Body } from '@/ui/Typography'
 
 export const AppointmentsPage = () => {
     const data = useGetAppointments()
     const nextSixtyDays = getNext2Months()
     const [fullDays, setFullDays] = useState<any>([])
+    const token = getSavedToken()
+    const router = useRouter()
+
+    useEffect(() => {
+        if (!token) {
+            router.push('/login')
+        }
+    }, [token])
 
     useEffect(() => {
         const daysWithAppointments: any = []

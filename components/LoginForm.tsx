@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { useForm } from 'react-hook-form'
-import { MainButton } from '@/ui/Buttons'
-import { Label } from '@/ui/Typography'
 import { useAppDispatch } from '@/hooks/redux-toolkit'
+import { Toaster, toast } from 'sonner'
+import { useForm } from 'react-hook-form'
 import { setUserEmail, setUserData } from '@/store'
 import { sendCodeLogin, getToken, getMe } from '@/lib/api'
+import { MainButton } from '@/ui/Buttons'
+import { Label } from '@/ui/Typography'
 import { Loader } from '@/ui/Loader'
-import { Toaster, toast } from 'sonner'
 
 export const LoginForm = () => {
     const {

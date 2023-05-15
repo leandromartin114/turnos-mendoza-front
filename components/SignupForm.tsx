@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
+import { Toaster, toast } from 'sonner'
+import { useAppDispatch } from '@/hooks/redux-toolkit'
+import { setUserEmail, setUserData } from '@/store'
+import { sendCodeSignUp, getToken, getMe } from '@/lib/api'
 import { MainButton } from '@/ui/Buttons'
 import { Label } from '@/ui/Typography'
-import { useAppDispatch } from '@/hooks/redux-toolkit'
-import { setUserEmail } from '@/store'
-import { sendCodeSignUp, getToken } from '@/lib/api'
 import { Loader } from '@/ui/Loader'
-import { Toaster, toast } from 'sonner'
 
 export const SignupForm = () => {
     const {
@@ -16,12 +16,12 @@ export const SignupForm = () => {
         formState: { errors },
         reset,
     } = useForm()
-
     const router = useRouter()
     const [email, setEmail] = useState('')
     const [loader, setLoader] = useState(false)
     const dispatch = useAppDispatch()
 
+    // Sending the code to the user email
     const handleSendCode = async (data: any) => {
         setLoader(true)
         try {
@@ -45,10 +45,14 @@ export const SignupForm = () => {
             reset()
         } catch (error) {
             setLoader(false)
+            toast.message('Hubo un error', {
+                description: `Inténtalo nuevamente por favor, o ingresa con tu email si ya tienes usuario.`,
+            })
             return error
         }
     }
 
+    // Sign in the user and getting data from server
     const handleLogin = async (data: any) => {
         setLoader(true)
         try {
@@ -57,12 +61,17 @@ export const SignupForm = () => {
                 toast.success('Registrado con éxito', {
                     description: `Bienvenido`,
                 })
+                const dataFromServer = await getMe()
+                dispatch(setUserData(dataFromServer))
             }
             setTimeout(() => {
                 router.push('/')
             }, 3000)
         } catch (error) {
             setLoader(false)
+            toast.error('Hubo un error', {
+                description: `Inténtalo nuevamente por favor`,
+            })
             return error
         }
         reset()

@@ -1,33 +1,39 @@
 import { configureStore } from '@reduxjs/toolkit'
-import storage from 'redux-persist/lib/storage'
-import { combineReducers } from 'redux'
+import { combineReducers } from '@reduxjs/toolkit'
 import { persistReducer } from 'redux-persist'
 import thunk from 'redux-thunk'
 import { userEmailSlice } from './userEmail/userEmailSlice'
 import { userDataSlice } from './userData/userDataSlice'
-import { userAppointmentSlice } from './userAppointment/userAppointmentSlice'
+import createWebStorage from 'redux-persist/lib/storage/createWebStorage'
 
-// export const store = configureStore({
-//     reducer: {
-//         userData: userDataSlice.reducer,
-//         userEmail: userEmailSlice.reducer,
-//         userAppointment: userAppointmentSlice.reducer,
-//     },
-//     middleware: (getDefaultMiddleware) =>
-//         getDefaultMiddleware({
-//             serializableCheck: false,
-//         }),
-// })
+const createNoopStorage = () => {
+    return {
+        getItem(_key: any) {
+            return Promise.resolve(null)
+        },
+        setItem(_key: any, value: any) {
+            return Promise.resolve(value)
+        },
+        removeItem(_key: any) {
+            return Promise.resolve()
+        },
+    }
+}
+
+const storage =
+    typeof window !== 'undefined'
+        ? createWebStorage('session')
+        : createNoopStorage()
 
 const reducers = combineReducers({
     userData: userDataSlice.reducer,
     userEmail: userEmailSlice.reducer,
-    userAppointment: userAppointmentSlice.reducer,
 })
 
 const persistConfig = {
     key: 'root',
     storage,
+    whitelist: ['userData', 'userEmail'],
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers)

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
+import { getSavedToken } from '@/lib/api'
 import { Title, SubTitle } from '@/ui/Typography'
 import { DarkButton } from '@/ui/Buttons'
-import { getSavedToken } from '@/lib/api'
 
 export const ProfileSection = () => {
     const router = useRouter()

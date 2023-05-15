@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
+import { getSavedToken } from '@/lib/api'
 import { Title, SubTitle, Body } from '@/ui/Typography'
 import { MainButton, SecondaryButton } from '@/ui/Buttons'
-import { getSavedToken } from '@/lib/api'
 
 export const MainSection = () => {
     const router = useRouter()
@@ -10,6 +10,7 @@ export const MainSection = () => {
     const handleLogin = () => {
         token ? router.push('/profile') : router.push('/login')
     }
+
     const handleSignup = () => {
         router.push('/signup')
     }

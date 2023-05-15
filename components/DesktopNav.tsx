@@ -12,10 +12,10 @@ export const DesktopNav = () => {
     const { logout } = useContext(HeaderContext)
     const router = useRouter()
     const token = getSavedToken()
+    const [displayUser, setDisplayUser] = useState('hidden')
     const [profileLink, setProfileLink] = useState('/login')
     const [appointmentLink, setAppointmentLink] = useState('/login')
     const [loginLink, setLoginLink] = useState('/login')
-    const [displayUser, setDisplayUser] = useState('hidden')
 
     const handleSession = () => {
         logout()
@@ -24,15 +24,15 @@ export const DesktopNav = () => {
 
     useEffect(() => {
         if (token) {
+            setDisplayUser('flex')
             setProfileLink('/profile')
             setAppointmentLink('/appointment')
             setLoginLink('/profile')
-            setDisplayUser('flex')
         } else {
+            setDisplayUser('hidden')
             setProfileLink('/login')
             setAppointmentLink('/login')
             setLoginLink('/login')
-            setDisplayUser('hidden')
         }
     }, [token])
 

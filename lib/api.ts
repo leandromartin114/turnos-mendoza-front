@@ -121,8 +121,8 @@ export async function getMe() {
 
 // It updates the user profile data
 export async function updateMe(
-    email: string,
     fullName: string,
+    email: string,
     phoneNumber: number,
     address: string,
     document: number
@@ -131,13 +131,13 @@ export async function updateMe(
     if (token) {
         try {
             const data = await fetchAPI('/me/update', {
-                method: 'POST',
+                method: 'PATCH',
                 body: {
                     fullName,
                     email,
-                    phoneNumber,
+                    phoneNumber: Number(phoneNumber),
                     address,
-                    document,
+                    document: Number(document),
                 },
                 headers: {
                     'Access-Control-Allow-Origin': '*',

@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import { Footer } from './Footer'
 import { Header } from './Header'
+
 interface Props {
     children?: ReactNode
 }
@@ -8,9 +9,9 @@ interface Props {
 export const Layout = ({ children }: Props) => {
     return (
         <>
-            <Header></Header>
+            <Header />
             {children}
-            <Footer></Footer>
+            <Footer />
         </>
     )
 }

@@ -1,19 +1,18 @@
 import { useState } from 'react'
+import { useAppDispatch, useAppSelector } from '@/hooks/redux-toolkit'
 import { useForm } from 'react-hook-form'
+import { Toaster, toast } from 'sonner'
+import { setUserData, RootState } from '@/store'
+import { deleteAppointment, updateMe, getMe } from '@/lib/api'
 import { MainButton, SecondaryButton } from '@/ui/Buttons'
 import { Label } from '@/ui/Typography'
-import { useAppDispatch, useAppSelector } from '@/hooks/redux-toolkit'
-import { setUserData, RootState } from '@/store'
-import { deleteAppointment, updateMe } from '@/lib/api'
 import { Loader } from '@/ui/Loader'
-import { Toaster, toast } from 'sonner'
 
 export const UpdateForm = () => {
     const {
         register,
         handleSubmit,
         formState: { errors },
-        reset,
     } = useForm()
     const [loader, setLoader] = useState(false)
     const dispatch = useAppDispatch()
@@ -21,12 +20,6 @@ export const UpdateForm = () => {
 
     const handleUpdate = async (data: any) => {
         setLoader(true)
-        dispatch(setUserData(data))
-        setTimeout(() => {
-            toast.message('Datos actualizados', {
-                description: `Actualizamos tus datos correctamente`,
-            })
-        }, 3000)
         const res = await updateMe(
             data.fullName,
             data.email,
@@ -35,9 +28,15 @@ export const UpdateForm = () => {
             data.document
         )
         if (res) {
+            setTimeout(() => {
+                toast.message('Datos actualizados', {
+                    description: `Actualizamos tus datos correctamente`,
+                })
+            }, 2000)
             setLoader(false)
+            const dataFromServer = await getMe()
+            dispatch(setUserData(dataFromServer))
         }
-        reset()
     }
 
     const handleDeleteAppointment = async () => {
@@ -52,14 +51,6 @@ export const UpdateForm = () => {
             setLoader(false)
         }
     }
-
-    // useEffect(() => {
-    //     async function fetchMyData() {
-    //         const data = await getMe()
-    //         dispatch(setUserData(data))
-    //     }
-    //     fetchMyData()
-    // }, [])
 
     return (
         <>
