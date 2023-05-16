@@ -8,7 +8,7 @@ people attention in a better way, avoiding long tails and collapse.
 
 ## Link
 
-soon
+https://turnosmendoza.vercel.app/
 
 ## Tech Stack
 
